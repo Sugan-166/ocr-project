@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Number Plate Detection System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #06b6d4;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --surface-color: #f8fafc;
+            --border-color: #e5e7eb;
+            --hover-transform: translateY(-2px);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background-gradient);
+            min-height: 100vh;
+            padding: 1rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(100px); }
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1.5rem 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-color);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .nav-tab:hover {
+            background: rgba(99, 102, 241, 0.05);
+            color: var(--primary-color);
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .nav-tab.active::before {
+            transform: scaleX(1);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 2.5rem;
+            min-height: 600px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: var(--surface-color);
+            border: 3px dashed var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.05), transparent);
+            transition: var(--transition);
+        }
+
+        .upload-section:hover {
+            border-color: var(--primary-color);
+            background: rgba(99, 102, 241, 0.02);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.1);
+        }
+
+        .upload-section.dragover {
+            border-color: var(--secondary-color);
+            background: rgba(6, 182, 212, 0.05);
+            transform: scale(1.02);
+        }
+
+        .upload-section.dragover::before {
+            left: 100%;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Buttons */
+        .upload-btn, .process-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .upload-btn::before, .process-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition);
+        }
+
+        .upload-btn:hover, .process-btn:hover {
+            transform: var(--hover-transform);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .upload-btn:hover::before, .process-btn:hover::before {
+            left: 100%;
+        }
+
+        .process-btn {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            display: none;
+            font-size: 1.125rem;
+            padding: 1.25rem 2.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .process-btn:hover {
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .process-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Success/Danger Button Variants */
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Camera Controls */
+        .camera-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .camera-feed {
+            max-width: 100%;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin: 2rem 0;
+            border: 4px solid white;
+        }
+
+        /* Results Section */
+        .results-section {
+            margin-top: 2rem;
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Image Preview */
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .image-container {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .image-container:hover {
+            transform: var(--hover-transform);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-container h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        .preview-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Detected Text */
+        .detected-text {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .detected-text h3 {
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .plate-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .loading p {
+            color: var(--text-secondary);
+        }
+
+        /* Message Styles */
+        .error-message, .success-message {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            display: none;
+            font-weight: 500;
+            border-left: 4px solid;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border-left-color: var(--danger-color);
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border-left-color: var(--success-color);
+        }
+
+        /* OCR Results */
+        .ocr-results {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .ocr-results h3 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .ocr-results table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .ocr-results th,
+        .ocr-results td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ocr-results th {
+            background: var(--surface-color);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .ocr-results td {
+            color: var(--text-secondary);
+        }
+
+        .ocr-results tr:hover {
+            background: rgba(99, 102, 241, 0.02);
+        }
+
+        /* Video Info */
+        .video-info {
+            background: rgba(6, 182, 212, 0.05);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .video-info h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* Detection List */
+        .detection-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            background: white;
+        }
+
+        .detection-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .detection-item:last-child {
+            border-bottom: none;
+        }
+
+        .detection-item:hover {
+            background: var(--surface-color);
+            border-radius: 8px;
+        }
+
+        /* Validation Info */
+        .validation-info {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .validation-title {
+            color: var(--success-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        /* Confidence Bar */
+        .confidence-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--danger-color) 0%, var(--warning-color) 50%, var(--success-color) 100%);
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .container {
+                border-radius: 16px;
+            }
+
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .tab-content {
+                padding: 1.5rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .nav-tab {
+                padding: 1rem;
+            }
+
+            .upload-section {
+                padding: 2rem 1rem;
+            }
+
+            .image-preview {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .camera-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .plate-number {
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .upload-btn, .process-btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .plate-number {
+                font-size: 1.25rem;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .detection-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .detection-list::-webkit-scrollbar-track {
+            background: var(--surface-color);
+            border-radius: 3px;
+        }
+
+        .detection-list::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .detection-list::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Smart Number Plate Detection System</h1>
+            <p>AI-powered vehicle number plate recognition with Image, Video & Live Camera support</p>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('image')">
+                <i class="fas fa-image"></i> Image Upload
+            </button>
+            <button class="nav-tab" onclick="showTab('video')">
+                <i class="fas fa-video"></i> Video Upload
+            </button>
+            <button class="nav-tab" onclick="showTab('camera')">
+                <i class="fas fa-camera"></i> Live Camera
+            </button>
+        </div>
+
+        <!-- Image Upload Tab -->
+        <div id="image-tab" class="tab-content active">
+            <div class="upload-section" id="image-upload-area">
+                <div style="font-size: 4em; color: #6b7280; margin-bottom: 20px;">📷</div>
+                <div style="font-size: 1.3em; color: #495057; margin-bottom: 20px;">
+                    <strong>Drop your image here or click to browse</strong><br>
+                    Supports JPG, PNG, BMP, TIFF files
+                </div>
+                <input type="file" id="image-file-input" class="file-input" accept=".jpg,.jpeg,.png,.bmp,.tiff">
+                <button class="upload-btn" onclick="document.getElementById('image-file-input').click()">
+                    <i class="fas fa-cloud-upload-alt"></i> Choose Image File
+                </button>
+            </div>
+
+            <div class="error-message" id="image-error-msg"></div>
+            <div class="success-message" id="image-success-msg"></div>
+
+            <div style="text-align: center;">
+                <button class="process-btn" id="image-process-btn">
+                    <i class="fas fa-magic"></i> Detect Number Plate
+                </button>
+            </div>
+
+            <div class="loading" id="image-loading">
+                <div class="spinner"></div>
+                <h3>Processing Image...</h3>
+                <p>Running Roboflow detection and advanced OCR analysis</p>
+            </div>
+
+            <div class="results-section" id="image-results">
+                <div class="image-preview">
+                    <div class="image-container">
+                        <h3>📸 Original Image</h3>
+                        <img id="image-original-img" class="preview-img" alt="Original Image">
+                    </div>
+                    <div class="image-container">
+                        <h3>🔍 Detected Plate</h3>
+                        <img id="image-cropped-img" class="preview-img" alt="Cropped Plate">
+                    </div>
+                    <div class="image-container">
+                        <h3>✨ Annotated Result</h3>
+                        <img id="image-annotated-img" class="preview-img" alt="Annotated Image">
+                    </div>
+                </div>
+
+                <div class="detected-text">
+                    <h3>🚗 Detected Number Plate</h3>
+                    <div class="plate-number" id="image-plate-result">Processing...</div>
+                    <p id="image-detection-info" style="margin-top: 15px; opacity: 0.9;"></p>
+                </div>
+
+                <div id="image-validation-info"></div>
+
+                <div class="ocr-results">
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">🔍 OCR Engine Results</h3>
+                    <table id="image-ocr-table">
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Result</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="upload-btn" id="image-download-btn">
+                        <i class="fas fa-download"></i> Download Annotated Image
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Upload Tab -->
+        <div id="video-tab" class="tab-content">
+            <div class="upload-section" id="video-upload-area">
+                <div style="font-size: 4em; color: #6b7280; margin-bottom: 20px;">🎥</div>
+                <div style="font-size: 1.3em; color: #495057; margin-bottom: 20px;">
+                    <strong>Drop your video here or click to browse</strong><br>
+                    Supports MP4, AVI, MOV, MKV, WMV, FLV, WEBM files
+                </div>
+                <input type="file" id="video-file-input" class="file-input" accept=".mp4,.avi,.mov,.mkv,.wmv,.flv,.webm">
+                <button class="upload-btn" onclick="document.getElementById('video-file-input').click()">
+                    <i class="fas fa-film"></i> Choose Video File
+                </button>
+            </div>
+
+            <div class="error-message" id="video-error-msg"></div>
+            <div class="success-message" id="video-success-msg"></div>
+
+            <div style="text-align: center;">
+                <button class="process-btn" id="video-process-btn">
+                    <i class="fas fa-play"></i> Process Video
+                </button>
+            </div>
+
+            <div class="loading" id="video-loading">
+                <div class="spinner"></div>
+                <h3>Processing Video...</h3>
+                <p>Analyzing video frames for number plate detection</p>
+            </div>
+
+            <div class="results-section" id="video-results">
+                <div class="video-info" id="video-info-section"></div>
+                <div class="detected-text" id="video-best-detection"></div>
+                <div class="ocr-results">
+                    <h3 style="margin-bottom: 15px; color: #2c3e50;">📹 Video Detection Results</h3>
+                    <div class="detection-list" id="video-detection-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Camera Tab -->
+        <div id="camera-tab" class="tab-content">
+            <div style="text-align: center;">
+                <div class="camera-controls">
+                    <button class="upload-btn btn-success" onclick="startCamera()">
+                        <i class="fas fa-play"></i> Start Camera
+                    </button>
+                    <button class="upload-btn btn-danger" onclick="stopCamera()">
+                        <i class="fas fa-stop"></i> Stop Camera
+                    </button>
+                    <button class="upload-btn" onclick="captureFrame()" id="camera-capture-btn" disabled>
+                        <i class="fas fa-camera"></i> Capture & Analyze
+                    </button>
+                </div>
+
+                <img id="camera-feed" class="camera-feed" style="display: none;" alt="Camera Feed">
+
+                <div class="error-message" id="camera-error-msg"></div>
+                <div class="success-message" id="camera-success-msg"></div>
+
+                <div class="loading" id="camera-loading">
+                    <div class="spinner"></div>
+                    <h3>Processing Camera Frame...</h3>
+                    <p>Analyzing captured frame for number plate detection</p>
+                </div>
+
+                <div class="results-section" id="camera-results">
+                    <div class="detected-text">
+                        <h3>📹 Live Camera Detection</h3>
+                        <div class="plate-number" id="camera-plate-result">No detection yet</div>
+                        <p id="camera-detection-info" style="margin-top: 15px; opacity: 0.9;"></p>
+                    </div>
+                    <div id="camera-validation-info"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SmartPlateApp {
+            constructor() {
+                this.currentFiles = { image: null, video: null };
+                this.currentResults = { image: null, video: null, camera: null };
+                this.cameraActive = false;
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                // Image upload
+                const imageInput = document.getElementById('image-file-input');
+                const imageUploadArea = document.getElementById('image-upload-area');
+                const imageProcessBtn = document.getElementById('image-process-btn');
+                const imageDownloadBtn = document.getElementById('image-download-btn');
+
+                imageInput.addEventListener('change', (e) => this.handleFileSelect(e, 'image'));
+                imageProcessBtn.addEventListener('click', () => this.processImage());
+                imageDownloadBtn.addEventListener('click', () => this.downloadImage());
+                this.setupDragDrop(imageUploadArea, 'image');
+
+                // Video upload
+                const videoInput = document.getElementById('video-file-input');
+                const videoUploadArea = document.getElementById('video-upload-area');
+                const videoProcessBtn = document.getElementById('video-process-btn');
+
+                videoInput.addEventListener('change', (e) => this.handleFileSelect(e, 'video'));
+                videoProcessBtn.addEventListener('click', () => this.processVideo());
+                this.setupDragDrop(videoUploadArea, 'video');
+            }
+
+            setupDragDrop(area, type) {
+                area.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    area.classList.add('dragover');
+                });
+
+                area.addEventListener('dragleave', () => {
+                    area.classList.remove('dragover');
+                });
+
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    area.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        this.handleFile(files[0], type);
+                    }
+                });
+            }
+
+            handleFileSelect(event, type) {
+                const file = event.target.files[0];
+                if (file) {
+                    this.handleFile(file, type);
+                }
+            }
+
+            handleFile(file, type) {
+                const validTypes = {
+                    image: ['image/'],
+                    video: ['video/']
+                };
+
+                if (!validTypes[type].some(validType => file.type.startsWith(validType))) {
+                    this.showError(`Please select a valid ${type} file`, type);
+                    return;
+                }
+
+                this.currentFiles[type] = file;
+                this.showSuccess(`${type.charAt(0).toUpperCase() + type.slice(1)} file "${file.name}" loaded successfully!`, type);
+
+                if (type === 'image') {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        document.getElementById('image-original-img').src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                document.getElementById(`${type}-process-btn`).style.display = 'inline-block';
+                document.getElementById(`${type}-results`).style.display = 'none';
+            }
+
+            async processImage() {
+                if (!this.currentFiles.image) {
+                    this.showError('Please select an image first', 'image');
+                    return;
+                }
+
+                document.getElementById('image-loading').style.display = 'block';
+                document.getElementById('image-process-btn').disabled = true;
+
+                try {
+                    const formData = new FormData();
+                    formData.append('image', this.currentFiles.image);
+
+                    const response = await fetch('/api/detect', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        this.currentResults.image = result;
+                        this.displayImageResults(result);
+                        this.showSuccess('Detection completed successfully!', 'image');
+                    } else {
+                        this.showError(result.error || 'Detection failed', 'image');
+                    }
+                } catch (error) {
+                    this.showError(`Network error: ${error.message}`, 'image');
+                } finally {
+                    document.getElementById('image-loading').style.display = 'none';
+                    document.getElementById('image-process-btn').disabled = false;
+                }
+            }
+
+            async processVideo() {
+                if (!this.currentFiles.video) {
+                    this.showError('Please select a video first', 'video');
+                    return;
+                }
+
+                document.getElementById('video-loading').style.display = 'block';
+                document.getElementById('video-process-btn').disabled = true;
+
+                try {
+                    const formData = new FormData();
+                    formData.append('video', this.currentFiles.video);
+
+                    const response = await fetch('/api/detect-video', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        this.currentResults.video = result;
+                        this.displayVideoResults(result);
+                        this.showSuccess('Video processing completed successfully!', 'video');
+                    } else {
+                        this.showError(result.error || 'Video processing failed', 'video');
+                    }
+                } catch (error) {
+                    this.showError(`Network error: ${error.message}`, 'video');
+                } finally {
+                    document.getElementById('video-loading').style.display = 'none';
+                    document.getElementById('video-process-btn').disabled = false;
+                }
+            }
+
+            displayImageResults(result) {
+                document.getElementById('image-results').style.display = 'block';
+
+                // Display detected text
+                document.getElementById('image-plate-result').textContent = result.detected_text || 'No text detected';
+                document.getElementById('image-detection-info').textContent = 
+                    `Method: ${result.detection_method} | Confidence: ${Math.round(result.final_confidence * 100)}%`;
+
+                // Display validation info
+                if (result.validation_applied && result.validation_result) {
+                    this.displayValidationInfo(result.validation_result, 'image');
+                }
+
+                // Display confidence bar
+                this.displayConfidenceBar(result.final_confidence, 'image');
+
+                // Display images
+                if (result.cropped_path) {
+                    document.getElementById('image-cropped-img').src = `/api/image/${result.cropped_path}`;
+                }
+                if (result.annotated_path) {
+                    document.getElementById('image-annotated-img').src = `/api/image/${result.annotated_path}`;
+                }
+
+                // Fill OCR results table
+                this.fillOCRTable(result, 'image');
+            }
+
+            displayVideoResults(result) {
+                document.getElementById('video-results').style.display = 'block';
+
+                // Video info
+                const videoInfo = document.getElementById('video-info-section');
+                videoInfo.innerHTML = `
+                    <h3>📹 Video Information</h3>
+                    <p><strong>Duration:</strong> ${result.video_info.duration}</p>
+                    <p><strong>Total Frames:</strong> ${result.video_info.total_frames}</p>
+                    <p><strong>FPS:</strong> ${result.video_info.fps.toFixed(1)}</p>
+                    <p><strong>Processed Frames:</strong> ${result.video_info.processed_frames}</p>
+                    <p><strong>Total Detections:</strong> ${result.detections.total_detections}</p>
+                    <p><strong>Unique Plates:</strong> ${result.detections.unique_plates}</p>
+                `;
+
+                // Best detection
+                if (result.best_detection) {
+                    const bestDetection = document.getElementById('video-best-detection');
+                    bestDetection.innerHTML = `
+                        <h3>🏆 Best Detection</h3>
+                        <div class="plate-number">${result.best_detection.plate}</div>
+                        <p>Confidence: ${Math.round(result.best_detection.max_confidence * 100)}% | 
+                        Count: ${result.best_detection.count} | 
+                        First seen: ${result.best_detection.first_seen}</p>
+                    `;
+                }
+
+                // Detection list
+                const detectionList = document.getElementById('video-detection-list');
+                detectionList.innerHTML = '';
+                if (result.detections.unique_plates_summary) {
+                    result.detections.unique_plates_summary.forEach(plate => {
+                        const item = document.createElement('div');
+                        item.className = 'detection-item';
+                        item.innerHTML = `
+                            <div>
+                                <strong>${plate.plate}</strong><br>
+                                <small>First seen: ${plate.first_seen} | Count: ${plate.count}</small>
+                            </div>
+                            <div>
+                                <span style="color: ${plate.valid_format ? '#10b981' : '#ef4444'}">
+                                    ${plate.valid_format ? '✓' : '✗'}
+                                </span>
+                                ${Math.round(plate.max_confidence * 100)}%
+                            </div>
+                        `;
+                        detectionList.appendChild(item);
+                    });
+                }
+            }
+
+            displayValidationInfo(validation, type) {
+                const validationDiv = document.getElementById(`${type}-validation-info`);
+                validationDiv.innerHTML = `
+                    <div class="validation-info">
+                        <div class="validation-title">✅ Smart Validation Applied</div>
+                        <p><strong>Format:</strong> ${validation.format}</p>
+                        <p><strong>Valid Indian Plate:</strong> ${validation.is_valid ? 'Yes' : 'No'}</p>
+                        <p><strong>Original:</strong> ${validation.original_text}</p>
+                        <p><strong>Corrected:</strong> ${validation.corrected_plate}</p>
+                    </div>
+                `;
+            }
+
+            displayConfidenceBar(confidence, type) {
+                // Remove existing confidence bar
+                const existing = document.querySelector(`#${type}-confidence-bar`);
+                if (existing) existing.remove();
+
+                const confidenceHTML = `
+                    <div id="${type}-confidence-bar" class="confidence-bar">
+                        <div class="confidence-fill" style="width: ${confidence * 100}%"></div>
+                    </div>
+                `;
+
+                const detectionInfo = document.getElementById(`${type}-detection-info`);
+                detectionInfo.insertAdjacentHTML('afterend', confidenceHTML);
+            }
+
+            fillOCRTable(result, type) {
+                const tbody = document.querySelector(`#${type}-ocr-table tbody`);
+                tbody.innerHTML = '';
+
+                for (const [method, text] of Object.entries(result.all_ocr_results)) {
+                    const row = tbody.insertRow();
+                    const score = this.calculateScore(text);
+                    row.innerHTML = `
+                        <td style="font-weight: ${method === result.detection_method ? 'bold' : 'normal'}">${method}</td>
+                        <td style="font-family: monospace; font-weight: ${method === result.detection_method ? 'bold' : 'normal'}">${text || 'Empty'}</td>
+                        <td>${score}</td>
+                    `;
+                    if (method === result.detection_method) {
+                        row.style.backgroundColor = '#d4edda';
+                    }
+                }
+            }
+
+            calculateScore(text) {
+                if (!text) return 0;
+                const hasLetters = /[A-Z]/.test(text);
+                const hasNumbers = /[0-9]/.test(text);
+                return text.length + (hasLetters && hasNumbers ? 2 : 0);
+            }
+
+            downloadImage() {
+                if (this.currentResults.image && this.currentResults.image.annotated_path) {
+                    const link = document.createElement('a');
+                    link.href = `/api/image/${this.currentResults.image.annotated_path}`;
+                    link.download = 'annotated_plate_detection.jpg';
+                    link.click();
+                } else {
+                    this.showError('No annotated image available for download', 'image');
+                }
+            }
+
+            showError(message, type) {
+                const errorDiv = document.getElementById(`${type}-error-msg`);
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+
+            showSuccess(message, type) {
+                const successDiv = document.getElementById(`${type}-success-msg`);
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+                setTimeout(() => {
+                    successDiv.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Camera functions
+        let app;
+        let cameraActive = false;
+
+        async function startCamera() {
+            try {
+                const response = await fetch('/api/camera-start', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    const feed = document.getElementById('camera-feed');
+                    feed.src = `/api/camera-feed?${Date.now()}`;
+                    feed.style.display = 'block';
+                    feed.onload = () => {
+                        cameraActive = true;
+                        document.getElementById('camera-capture-btn').disabled = false;
+                    };
+                    app.showSuccess('Camera started successfully', 'camera');
+                } else {
+                    app.showError(`Failed to start camera: ${data.error}`, 'camera');
+                }
+            } catch (error) {
+                app.showError(`Camera error: ${error.message}`, 'camera');
+            }
+        }
+
+        async function stopCamera() {
+            try {
+                const response = await fetch('/api/camera-stop', { method: 'POST' });
+                const feed = document.getElementById('camera-feed');
+                feed.style.display = 'none';
+                feed.src = '';
+                cameraActive = false;
+                document.getElementById('camera-capture-btn').disabled = true;
+                document.getElementById('camera-results').style.display = 'none';
+                app.showSuccess('Camera stopped', 'camera');
+            } catch (error) {
+                app.showError(`Camera stop error: ${error.message}`, 'camera');
+            }
+        }
+
+        async function captureFrame() {
+            if (!cameraActive) return;
+
+            document.getElementById('camera-loading').style.display = 'block';
+
+            try {
+                const response = await fetch('/api/camera-capture', { method: 'POST' });
+                const result = await response.json();
+
+                if (response.ok && !result.error) {
+                    displayCameraResults(result);
+                    app.showSuccess('Frame captured and processed', 'camera');
+                } else {
+                    app.showError(result.error || 'Frame capture failed', 'camera');
+                }
+            } catch (error) {
+                app.showError(`Frame capture failed: ${error.message}`, 'camera');
+            } finally {
+                document.getElementById('camera-loading').style.display = 'none';
+            }
+        }
+
+        function displayCameraResults(result) {
+            document.getElementById('camera-results').style.display = 'block';
+            document.getElementById('camera-plate-result').textContent = result.detected_text || 'No plate detected';
+            document.getElementById('camera-detection-info').textContent = 
+                `Capture Time: ${new Date(result.capture_time).toLocaleTimeString()} | Confidence: ${Math.round(result.final_confidence * 100)}%`;
+
+            if (result.validation_applied && result.validation_result) {
+                app.displayValidationInfo(result.validation_result, 'camera');
+            }
+            app.displayConfidenceBar(result.final_confidence, 'camera');
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            app = new SmartPlateApp();
+        });
+    </script>
+</body>
+</html>
