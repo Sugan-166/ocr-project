@@ -3,418 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Number Plate Detection System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Vehicle Intelligence System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary-color: #06b6d4;
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --light-bg: #f8fafc;
+            --dark-text: #1e293b;
             --success-color: #10b981;
-            --danger-color: #ef4444;
             --warning-color: #f59e0b;
-            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.18);
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --surface-color: #f8fafc;
-            --border-color: #e5e7eb;
-            --hover-transform: translateY(-2px);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --danger-color: #ef4444;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--background-gradient);
-            min-height: 100vh;
-            padding: 1rem;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
-            animation: fadeInUp 0.6s ease-out;
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateX(-100px); }
-            100% { transform: translateX(100px); }
-        }
-
-        .header h1 {
-            font-size: clamp(2rem, 4vw, 3rem);
+        .navbar-brand {
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
+            font-size: 1.5rem;
         }
 
-        .header p {
-            font-size: 1.125rem;
-            opacity: 0.9;
-            font-weight: 400;
-            position: relative;
-            z-index: 1;
+        .hero-section {
+            background: linear-gradient(rgba(37, 99, 235, 0.9), rgba(30, 64, 175, 0.9)), url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 50px;
         }
 
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            background: var(--surface-color);
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
+        .hero-section .display-4 {
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .nav-tab {
-            flex: 1;
-            padding: 1.5rem 2rem;
-            background: transparent;
+        .card {
             border: none;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            transition: var(--transition);
-            position: relative;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background-color: white;
+            border-bottom: 3px solid var(--primary-color);
+            border-radius: 15px 15px 0 0 !important;
+            font-weight: 600;
+            padding: 1.2rem;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 1.5rem;
         }
 
-        .nav-tab::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--primary-color);
-            transform: scaleX(0);
-            transition: var(--transition);
-        }
-
-        .nav-tab:hover {
-            background: rgba(99, 102, 241, 0.05);
-            color: var(--primary-color);
-        }
-
-        .nav-tab.active {
-            background: white;
-            color: var(--primary-color);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
             font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        .nav-tab.active::before {
-            transform: scaleX(1);
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
         }
 
-        /* Tab Content */
-        .tab-content {
+        .btn-outline-primary {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: white;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-color);
+            background-color: #f1f5f9;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .result-container {
             display: none;
-            padding: 2.5rem;
-            min-height: 600px;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Upload Section */
-        .upload-section {
-            background: var(--surface-color);
-            border: 3px dashed var(--border-color);
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .upload-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.05), transparent);
-            transition: var(--transition);
-        }
-
-        .upload-section:hover {
-            border-color: var(--primary-color);
-            background: rgba(99, 102, 241, 0.02);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.1);
-        }
-
-        .upload-section.dragover {
-            border-color: var(--secondary-color);
-            background: rgba(6, 182, 212, 0.05);
-            transform: scale(1.02);
-        }
-
-        .upload-section.dragover::before {
-            left: 100%;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        /* Buttons */
-        .upload-btn, .process-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            margin: 0.5rem;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.2);
-        }
-
-        .upload-btn::before, .process-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: var(--transition);
-        }
-
-        .upload-btn:hover, .process-btn:hover {
-            transform: var(--hover-transform);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
-        }
-
-        .upload-btn:hover::before, .process-btn:hover::before {
-            left: 100%;
-        }
-
-        .process-btn {
-            background: linear-gradient(135deg, var(--success-color), #059669);
-            display: none;
-            font-size: 1.125rem;
-            padding: 1.25rem 2.5rem;
-            margin: 1.5rem 0;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-        }
-
-        .process-btn:hover {
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
-        }
-
-        .process-btn:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Success/Danger Button Variants */
-        .btn-success {
-            background: linear-gradient(135deg, var(--success-color), #059669);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
-        }
-
-        .btn-success:hover {
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, var(--danger-color), #dc2626);
-            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2);
-        }
-
-        .btn-danger:hover {
-            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
-        }
-
-        /* Camera Controls */
-        .camera-controls {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .camera-feed {
-            max-width: 100%;
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
-            margin: 2rem 0;
-            border: 4px solid white;
-        }
-
-        /* Results Section */
-        .results-section {
-            margin-top: 2rem;
-            display: none;
-            animation: slideUp 0.5s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Image Preview */
-        .image-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .image-container {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .image-container:hover {
-            transform: var(--hover-transform);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .image-container h3 {
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .preview-img {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: var(--transition);
-        }
-
-        .preview-img:hover {
-            transform: scale(1.02);
-        }
-
-        /* Detected Text */
-        .detected-text {
-            background: linear-gradient(135deg, var(--success-color), #059669);
-            color: white;
-            padding: 2rem;
-            border-radius: 16px;
-            margin: 2rem 0;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
-        }
-
-        .detected-text h3 {
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .plate-number {
+        .plate-display {
             font-size: 2.5rem;
             font-weight: 700;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 4px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            margin-top: 1rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: none;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-align: center;
-            padding: 3rem;
+            margin: 20px 0;
+            letter-spacing: 2px;
         }
 
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid var(--border-color);
+        .live-feed-container {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #liveFeed {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .control-panel {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e2e8f0;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .status-success {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-warning {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-error {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+
+        .tab-content {
+            padding: 20px 0;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-3px);
+        }
+
+        .video-preview {
+            max-height: 400px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .detection-item {
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .confidence-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e2e8f0;
+            margin-top: 5px;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .component-badge {
+            background-color: #dbeafe;
+            color: var(--primary-color);
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0;
+            }
+            
+            .plate-display {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
             border-top: 4px solid var(--primary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 1.5rem;
+            margin: 20px auto;
         }
 
         @keyframes spin {
@@ -422,823 +312,1201 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loading h3 {
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .loading p {
-            color: var(--text-secondary);
-        }
-
-        /* Message Styles */
-        .error-message, .success-message {
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            display: none;
-            font-weight: 500;
-            border-left: 4px solid;
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            color: #dc2626;
-            border-left-color: var(--danger-color);
-        }
-
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            color: #059669;
-            border-left-color: var(--success-color);
-        }
-
-        /* OCR Results */
-        .ocr-results {
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            margin: 2rem 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
-        }
-
-        .ocr-results h3 {
-            margin-bottom: 1.5rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .ocr-results table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .ocr-results th,
-        .ocr-results td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .ocr-results th {
-            background: var(--surface-color);
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .ocr-results td {
-            color: var(--text-secondary);
-        }
-
-        .ocr-results tr:hover {
-            background: rgba(99, 102, 241, 0.02);
-        }
-
-        /* Video Info */
-        .video-info {
-            background: rgba(6, 182, 212, 0.05);
-            padding: 2rem;
-            border-radius: 16px;
-            margin: 2rem 0;
-            border: 1px solid rgba(6, 182, 212, 0.2);
-        }
-
-        .video-info h3 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        /* Detection List */
-        .detection-list {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1rem;
-            background: white;
-        }
-
-        .detection-item {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
+        .camera-controls {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        .detection-item:last-child {
-            border-bottom: none;
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
         }
 
-        .detection-item:hover {
-            background: var(--surface-color);
-            border-radius: 8px;
+        .stat-card:hover {
+            transform: translateY(-5px);
         }
 
-        /* Validation Info */
-        .validation-info {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 1.5rem 0;
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
         }
 
-        .validation-title {
-            color: var(--success-color);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 1.125rem;
+        .stat-label {
+            color: #64748b;
+            font-weight: 500;
         }
 
-        /* Confidence Bar */
-        .confidence-bar {
+        .vehicle-provider-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .provider-confidence {
             width: 100%;
-            height: 8px;
-            background: var(--border-color);
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 1rem 0;
+            height: 6px;
+            background-color: #e2e8f0;
+            border-radius: 3px;
+            margin-top: 5px;
         }
 
-        .confidence-fill {
+        .provider-confidence-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--danger-color) 0%, var(--warning-color) 50%, var(--success-color) 100%);
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 4px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            body {
-                padding: 0.5rem;
-            }
-
-            .container {
-                border-radius: 16px;
-            }
-
-            .header {
-                padding: 2rem 1rem;
-            }
-
-            .tab-content {
-                padding: 1.5rem;
-            }
-
-            .nav-tabs {
-                flex-direction: column;
-            }
-
-            .nav-tab {
-                padding: 1rem;
-            }
-
-            .upload-section {
-                padding: 2rem 1rem;
-            }
-
-            .image-preview {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .camera-controls {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .plate-number {
-                font-size: 1.5rem;
-                letter-spacing: 2px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .header p {
-                font-size: 1rem;
-            }
-
-            .upload-btn, .process-btn {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .plate-number {
-                font-size: 1.25rem;
-                letter-spacing: 1px;
-            }
-        }
-
-        /* Scrollbar Styling */
-        .detection-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .detection-list::-webkit-scrollbar-track {
-            background: var(--surface-color);
             border-radius: 3px;
-        }
-
-        .detection-list::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
-        }
-
-        .detection-list::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
+            background: linear-gradient(90deg, #10b981, #3b82f6);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🚗 Smart Number Plate Detection System</h1>
-            <p>AI-powered vehicle number plate recognition with Image, Video & Live Camera support</p>
-        </div>
-
-        <!-- Navigation Tabs -->
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="showTab('image')">
-                <i class="fas fa-image"></i> Image Upload
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-car-side me-2"></i>Vehicle Intelligence
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <button class="nav-tab" onclick="showTab('video')">
-                <i class="fas fa-video"></i> Video Upload
-            </button>
-            <button class="nav-tab" onclick="showTab('camera')">
-                <i class="fas fa-camera"></i> Live Camera
-            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#number-plate">Number Plate</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#vehicle-provider">Vehicle Provider</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#live-detection">Live Detection</a>
+                    </li>
+                </ul>
+            </div>
         </div>
+    </nav>
 
-        <!-- Image Upload Tab -->
-        <div id="image-tab" class="tab-content active">
-            <div class="upload-section" id="image-upload-area">
-                <div style="font-size: 4em; color: #6b7280; margin-bottom: 20px;">📷</div>
-                <div style="font-size: 1.3em; color: #495057; margin-bottom: 20px;">
-                    <strong>Drop your image here or click to browse</strong><br>
-                    Supports JPG, PNG, BMP, TIFF files
-                </div>
-                <input type="file" id="image-file-input" class="file-input" accept=".jpg,.jpeg,.png,.bmp,.tiff">
-                <button class="upload-btn" onclick="document.getElementById('image-file-input').click()">
-                    <i class="fas fa-cloud-upload-alt"></i> Choose Image File
-                </button>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container text-center">
+            <h1 class="display-4 mb-4">Advanced Vehicle Detection System</h1>
+            <p class="lead mb-5">Detect number plates and vehicle providers with AI-powered precision</p>
+            <a href="#number-plate" class="btn btn-light btn-lg me-3">Detect Number Plate</a>
+            <a href="#vehicle-provider" class="btn btn-outline-light btn-lg">Detect Vehicle Provider</a>
+        </div>
+    </section>
 
-            <div class="error-message" id="image-error-msg"></div>
-            <div class="success-message" id="image-success-msg"></div>
-
-            <div style="text-align: center;">
-                <button class="process-btn" id="image-process-btn">
-                    <i class="fas fa-magic"></i> Detect Number Plate
-                </button>
-            </div>
-
-            <div class="loading" id="image-loading">
-                <div class="spinner"></div>
-                <h3>Processing Image...</h3>
-                <p>Running Roboflow detection and advanced OCR analysis</p>
-            </div>
-
-            <div class="results-section" id="image-results">
-                <div class="image-preview">
-                    <div class="image-container">
-                        <h3>📸 Original Image</h3>
-                        <img id="image-original-img" class="preview-img" alt="Original Image">
-                    </div>
-                    <div class="image-container">
-                        <h3>🔍 Detected Plate</h3>
-                        <img id="image-cropped-img" class="preview-img" alt="Cropped Plate">
-                    </div>
-                    <div class="image-container">
-                        <h3>✨ Annotated Result</h3>
-                        <img id="image-annotated-img" class="preview-img" alt="Annotated Image">
+    <!-- Features Section -->
+    <section class="container my-5" id="features">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Powerful Features</h2>
+            <p class="text-muted">Our system combines cutting-edge technology to deliver accurate vehicle detection</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h4>Smart Validation</h4>
+                        <p class="text-muted">Advanced algorithms validate detected plates against Indian state codes and formats for maximum accuracy.</p>
                     </div>
                 </div>
-
-                <div class="detected-text">
-                    <h3>🚗 Detected Number Plate</h3>
-                    <div class="plate-number" id="image-plate-result">Processing...</div>
-                    <p id="image-detection-info" style="margin-top: 15px; opacity: 0.9;"></p>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h4>Video Processing</h4>
+                        <p class="text-muted">Process entire videos to detect and track vehicle plates across multiple frames with timestamp accuracy.</p>
+                    </div>
                 </div>
-
-                <div id="image-validation-info"></div>
-
-                <div class="ocr-results">
-                    <h3 style="margin-bottom: 15px; color: #2c3e50;">🔍 OCR Engine Results</h3>
-                    <table id="image-ocr-table">
-                        <thead>
-                            <tr>
-                                <th>Method</th>
-                                <th>Result</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-
-                <div style="text-align: center; margin-top: 30px;">
-                    <button class="upload-btn" id="image-download-btn">
-                        <i class="fas fa-download"></i> Download Annotated Image
-                    </button>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h4>Live Detection</h4>
+                        <p class="text-muted">Real-time detection from your webcam with instant results and continuous monitoring capabilities.</p>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Video Upload Tab -->
-        <div id="video-tab" class="tab-content">
-            <div class="upload-section" id="video-upload-area">
-                <div style="font-size: 4em; color: #6b7280; margin-bottom: 20px;">🎥</div>
-                <div style="font-size: 1.3em; color: #495057; margin-bottom: 20px;">
-                    <strong>Drop your video here or click to browse</strong><br>
-                    Supports MP4, AVI, MOV, MKV, WMV, FLV, WEBM files
-                </div>
-                <input type="file" id="video-file-input" class="file-input" accept=".mp4,.avi,.mov,.mkv,.wmv,.flv,.webm">
-                <button class="upload-btn" onclick="document.getElementById('video-file-input').click()">
-                    <i class="fas fa-film"></i> Choose Video File
-                </button>
-            </div>
-
-            <div class="error-message" id="video-error-msg"></div>
-            <div class="success-message" id="video-success-msg"></div>
-
-            <div style="text-align: center;">
-                <button class="process-btn" id="video-process-btn">
-                    <i class="fas fa-play"></i> Process Video
-                </button>
-            </div>
-
-            <div class="loading" id="video-loading">
-                <div class="spinner"></div>
-                <h3>Processing Video...</h3>
-                <p>Analyzing video frames for number plate detection</p>
-            </div>
-
-            <div class="results-section" id="video-results">
-                <div class="video-info" id="video-info-section"></div>
-                <div class="detected-text" id="video-best-detection"></div>
-                <div class="ocr-results">
-                    <h3 style="margin-bottom: 15px; color: #2c3e50;">📹 Video Detection Results</h3>
-                    <div class="detection-list" id="video-detection-list"></div>
+    <!-- Number Plate Detection Tab -->
+    <section class="container my-5" id="number-plate">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3><i class="fas fa-registered me-2"></i>Number Plate Detection</h3>
+                <div class="nav nav-tabs card-header-tabs" role="tablist">
+                    <button class="nav-link active" id="image-tab" data-bs-toggle="tab" data-bs-target="#image-detection" type="button">Image</button>
+                    <button class="nav-link" id="video-tab" data-bs-toggle="tab" data-bs-target="#video-detection" type="button">Video</button>
+                    <button class="nav-link" id="live-tab" data-bs-toggle="tab" data-bs-target="#live-detection-tab" type="button">Live Camera</button>
                 </div>
             </div>
-        </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <!-- Image Detection -->
+                    <div class="tab-pane fade show active" id="image-detection">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="upload-area" id="imageUploadArea">
+                                    <div class="upload-icon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    <h5>Upload Image for Detection</h5>
+                                    <p class="text-muted">Drag & drop or click to upload an image (JPG, PNG, BMP)</p>
+                                    <input type="file" id="imageInput" accept="image/*" class="d-none">
+                                    <button class="btn btn-primary mt-3">
+                                        <i class="fas fa-upload me-2"></i>Select Image
+                                    </button>
+                                </div>
+                                <div class="progress mb-3" style="height: 20px; display: none;" id="imageProgress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <div class="loading-spinner" id="imageLoading"></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="result-container" id="imageResult">
+                                    <h4 class="mb-4">Detection Results</h4>
+                                    <div class="plate-display" id="detectedPlate">KA01AB1234</div>
+                                    
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <div class="stat-card">
+                                                <div class="stat-number" id="detectionConfidence">95%</div>
+                                                <div class="stat-label">Detection Confidence</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="stat-card">
+                                                <div class="stat-number" id="textConfidence">87%</div>
+                                                <div class="stat-label">Text Confidence</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-        <!-- Live Camera Tab -->
-        <div id="camera-tab" class="tab-content">
-            <div style="text-align: center;">
-                <div class="camera-controls">
-                    <button class="upload-btn btn-success" onclick="startCamera()">
-                        <i class="fas fa-play"></i> Start Camera
-                    </button>
-                    <button class="upload-btn btn-danger" onclick="stopCamera()">
-                        <i class="fas fa-stop"></i> Stop Camera
-                    </button>
-                    <button class="upload-btn" onclick="captureFrame()" id="camera-capture-btn" disabled>
-                        <i class="fas fa-camera"></i> Capture & Analyze
-                    </button>
-                </div>
+                                    <div class="mb-4">
+                                        <h5>Validation Results</h5>
+                                        <div class="alert alert-success" id="validationStatus">
+                                            <i class="fas fa-check-circle me-2"></i> Plate format is valid
+                                        </div>
+                                    </div>
 
-                <img id="camera-feed" class="camera-feed" style="display: none;" alt="Camera Feed">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Original Image</h6>
+                                            <img id="originalImage" class="img-fluid rounded" style="max-height: 250px; object-fit: contain;">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>Annotated Image</h6>
+                                            <img id="annotatedImage" class="img-fluid rounded" style="max-height: 250px; object-fit: contain;">
+                                        </div>
+                                    </div>
 
-                <div class="error-message" id="camera-error-msg"></div>
-                <div class="success-message" id="camera-success-msg"></div>
-
-                <div class="loading" id="camera-loading">
-                    <div class="spinner"></div>
-                    <h3>Processing Camera Frame...</h3>
-                    <p>Analyzing captured frame for number plate detection</p>
-                </div>
-
-                <div class="results-section" id="camera-results">
-                    <div class="detected-text">
-                        <h3>📹 Live Camera Detection</h3>
-                        <div class="plate-number" id="camera-plate-result">No detection yet</div>
-                        <p id="camera-detection-info" style="margin-top: 15px; opacity: 0.9;"></p>
+                                    <div class="mt-4">
+                                        <h6>Component Analysis</h6>
+                                        <div id="componentAnalysis">
+                                            <!-- Component analysis will be populated here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="camera-validation-info"></div>
+
+                    <!-- Video Detection -->
+                    <div class="tab-pane fade" id="video-detection">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="upload-area" id="videoUploadArea">
+                                    <div class="upload-icon">
+                                        <i class="fas fa-video"></i>
+                                    </div>
+                                    <h5>Upload Video for Detection</h5>
+                                    <p class="text-muted">Upload a video file (MP4, AVI, MOV) for plate detection</p>
+                                    <input type="file" id="videoInput" accept="video/*" class="d-none">
+                                    <button class="btn btn-primary mt-3">
+                                        <i class="fas fa-upload me-2"></i>Select Video
+                                    </button>
+                                </div>
+                                <div class="progress mb-3" style="height: 20px; display: none;" id="videoProgress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <div class="loading-spinner" id="videoLoading"></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="result-container" id="videoResult">
+                                    <h4 class="mb-4">Video Analysis Results</h4>
+                                    
+                                    <div class="row mb-4">
+                                        <div class="col-md-4">
+                                            <div class="stat-card">
+                                                <div class="stat-number" id="totalFrames">0</div>
+                                                <div class="stat-label">Total Frames</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="stat-card">
+                                                <div class="stat-number" id="detectedPlates">0</div>
+                                                <div class="stat-label">Plates Detected</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="stat-card">
+                                                <div class="stat-number" id="uniquePlates">0</div>
+                                                <div class="stat-label">Unique Plates</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h5>Best Detection</h5>
+                                        <div class="detection-item">
+                                            <div class="plate-display mb-0" id="bestPlate">KA01AB1234</div>
+                                            <div class="d-flex justify-content-between mt-2">
+                                                <span>Confidence: <span id="bestConfidence">95%</span></span>
+                                                <span>First seen: <span id="firstSeen">00:00</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h5>All Detected Plates</h5>
+                                        <div id="allPlatesList">
+                                            <!-- List of all detected plates will be populated here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Detection -->
+                    <div class="tab-pane fade" id="live-detection-tab">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="live-feed-container mb-4">
+                                    <img id="liveFeed" class="img-fluid" src="" alt="Live Camera Feed">
+                                </div>
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-primary me-2" id="startCamera">
+                                        <i class="fas fa-video me-2"></i>Start Camera
+                                    </button>
+                                    <button class="btn btn-outline-primary me-2" id="captureFrame">
+                                        <i class="fas fa-camera me-2"></i>Capture Frame
+                                    </button>
+                                    <button class="btn btn-outline-danger" id="stopCamera">
+                                        <i class="fas fa-stop me-2"></i>Stop Camera
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="control-panel">
+                                    <h5>Live Detection Results</h5>
+                                    <div id="liveDetectionResults">
+                                        <div class="text-center text-muted py-5">
+                                            <i class="fas fa-info-circle fa-2x mb-3"></i>
+                                            <p>Start camera to begin detection</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
+    <!-- Vehicle Provider Detection Section -->
+    <section class="container my-5" id="vehicle-provider">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-truck me-2"></i>Vehicle Provider Detection</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="upload-area" id="providerUploadArea">
+                            <div class="upload-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <h5>Upload Image for Vehicle Provider Detection</h5>
+                            <p class="text-muted">Upload an image to detect vehicle providers (logos, text, etc.)</p>
+                            <input type="file" id="providerInput" accept="image/*" class="d-none">
+                            <button class="btn btn-primary mt-3">
+                                <i class="fas fa-upload me-2"></i>Select Image
+                            </button>
+                        </div>
+                        <div class="progress mb-3" style="height: 20px; display: none;" id="providerProgress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <div class="loading-spinner" id="providerLoading"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="result-container" id="providerResult">
+                            <h4 class="mb-4">Vehicle Provider Detection Results</h4>
+                            
+                            <div class="mb-4">
+                                <h5>Detected Providers</h5>
+                                <div class="alert alert-info">
+                                    <strong>Combined Providers:</strong> <span id="combinedProviders">No providers detected</span>
+                                </div>
+                                <div class="alert alert-success mt-2">
+                                    <strong>Average Confidence:</strong> <span id="avgConfidence">0%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h6>Individual Detections</h6>
+                                <div id="individualDetections">
+                                    <!-- Individual detections will be populated here -->
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <img id="providerAnnotatedImage" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Vehicle Provider Detection -->
+    <section class="container my-5" id="live-vehicle-provider">
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-video me-2"></i>Live Vehicle Provider Detection</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="live-feed-container mb-4">
+                            <img id="providerLiveFeed" class="img-fluid" src="" alt="Live Vehicle Provider Feed">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-primary me-2" id="startProviderCamera">
+                                <i class="fas fa-video me-2"></i>Start Camera
+                            </button>
+                            <button class="btn btn-outline-danger" id="stopProviderCamera">
+                                <i class="fas fa-stop me-2"></i>Stop Camera
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="control-panel">
+                            <h5>Live Detection Results</h5>
+                            <div id="providerLiveResults">
+                                <div class="text-center text-muted py-5">
+                                    <i class="fas fa-info-circle fa-2x mb-3"></i>
+                                    <p>Start camera to begin vehicle provider detection</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="container my-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">System Statistics</h2>
+            <p class="text-muted">Performance metrics and capabilities</p>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">38</div>
+                    <div class="stat-label">Indian States Supported</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">4+</div>
+                    <div class="stat-label">Detection Models</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">< 2s</div>
+                    <div class="stat-label">Average Processing Time</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>Vehicle Intelligence System</h5>
+                    <p class="text-muted">Advanced AI-powered vehicle detection for number plates and providers with real-time capabilities.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="footer-link">Home</a></li>
+                        <li><a href="#features" class="footer-link">Features</a></li>
+                        <li><a href="#number-plate" class="footer-link">Number Plate Detection</a></li>
+                        <li><a href="#vehicle-provider" class="footer-link">Vehicle Provider Detection</a></li>
+                        <li><a href="#live-detection" class="footer-link">Live Detection</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li><i class="fas fa-envelope me-2"></i> support@vehicleintelligence.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> Bengaluru, Karnataka, India</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4" style="background-color: rgba(255,255,255,0.2);">
+            <div class="text-center text-muted">
+                <p>&copy; 2023 Vehicle Intelligence System. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        class SmartPlateApp {
-            constructor() {
-                this.currentFiles = { image: null, video: null };
-                this.currentResults = { image: null, video: null, camera: null };
-                this.cameraActive = false;
-                this.initEventListeners();
-            }
-
-            initEventListeners() {
-                // Image upload
-                const imageInput = document.getElementById('image-file-input');
-                const imageUploadArea = document.getElementById('image-upload-area');
-                const imageProcessBtn = document.getElementById('image-process-btn');
-                const imageDownloadBtn = document.getElementById('image-download-btn');
-
-                imageInput.addEventListener('change', (e) => this.handleFileSelect(e, 'image'));
-                imageProcessBtn.addEventListener('click', () => this.processImage());
-                imageDownloadBtn.addEventListener('click', () => this.downloadImage());
-                this.setupDragDrop(imageUploadArea, 'image');
-
-                // Video upload
-                const videoInput = document.getElementById('video-file-input');
-                const videoUploadArea = document.getElementById('video-upload-area');
-                const videoProcessBtn = document.getElementById('video-process-btn');
-
-                videoInput.addEventListener('change', (e) => this.handleFileSelect(e, 'video'));
-                videoProcessBtn.addEventListener('click', () => this.processVideo());
-                this.setupDragDrop(videoUploadArea, 'video');
-            }
-
-            setupDragDrop(area, type) {
-                area.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    area.classList.add('dragover');
-                });
-
-                area.addEventListener('dragleave', () => {
-                    area.classList.remove('dragover');
-                });
-
-                area.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    area.classList.remove('dragover');
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        this.handleFile(files[0], type);
-                    }
-                });
-            }
-
-            handleFileSelect(event, type) {
-                const file = event.target.files[0];
-                if (file) {
-                    this.handleFile(file, type);
-                }
-            }
-
-            handleFile(file, type) {
-                const validTypes = {
-                    image: ['image/'],
-                    video: ['video/']
-                };
-
-                if (!validTypes[type].some(validType => file.type.startsWith(validType))) {
-                    this.showError(`Please select a valid ${type} file`, type);
-                    return;
-                }
-
-                this.currentFiles[type] = file;
-                this.showSuccess(`${type.charAt(0).toUpperCase() + type.slice(1)} file "${file.name}" loaded successfully!`, type);
-
-                if (type === 'image') {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        document.getElementById('image-original-img').src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-
-                document.getElementById(`${type}-process-btn`).style.display = 'inline-block';
-                document.getElementById(`${type}-results`).style.display = 'none';
-            }
-
-            async processImage() {
-                if (!this.currentFiles.image) {
-                    this.showError('Please select an image first', 'image');
-                    return;
-                }
-
-                document.getElementById('image-loading').style.display = 'block';
-                document.getElementById('image-process-btn').disabled = true;
-
-                try {
-                    const formData = new FormData();
-                    formData.append('image', this.currentFiles.image);
-
-                    const response = await fetch('/api/detect', {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok && result.success) {
-                        this.currentResults.image = result;
-                        this.displayImageResults(result);
-                        this.showSuccess('Detection completed successfully!', 'image');
-                    } else {
-                        this.showError(result.error || 'Detection failed', 'image');
-                    }
-                } catch (error) {
-                    this.showError(`Network error: ${error.message}`, 'image');
-                } finally {
-                    document.getElementById('image-loading').style.display = 'none';
-                    document.getElementById('image-process-btn').disabled = false;
-                }
-            }
-
-            async processVideo() {
-                if (!this.currentFiles.video) {
-                    this.showError('Please select a video first', 'video');
-                    return;
-                }
-
-                document.getElementById('video-loading').style.display = 'block';
-                document.getElementById('video-process-btn').disabled = true;
-
-                try {
-                    const formData = new FormData();
-                    formData.append('video', this.currentFiles.video);
-
-                    const response = await fetch('/api/detect-video', {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok && result.success) {
-                        this.currentResults.video = result;
-                        this.displayVideoResults(result);
-                        this.showSuccess('Video processing completed successfully!', 'video');
-                    } else {
-                        this.showError(result.error || 'Video processing failed', 'video');
-                    }
-                } catch (error) {
-                    this.showError(`Network error: ${error.message}`, 'video');
-                } finally {
-                    document.getElementById('video-loading').style.display = 'none';
-                    document.getElementById('video-process-btn').disabled = false;
-                }
-            }
-
-            displayImageResults(result) {
-                document.getElementById('image-results').style.display = 'block';
-
-                // Display detected text
-                document.getElementById('image-plate-result').textContent = result.detected_text || 'No text detected';
-                document.getElementById('image-detection-info').textContent = 
-                    `Method: ${result.detection_method} | Confidence: ${Math.round(result.final_confidence * 100)}%`;
-
-                // Display validation info
-                if (result.validation_applied && result.validation_result) {
-                    this.displayValidationInfo(result.validation_result, 'image');
-                }
-
-                // Display confidence bar
-                this.displayConfidenceBar(result.final_confidence, 'image');
-
-                // Display images
-                if (result.cropped_path) {
-                    document.getElementById('image-cropped-img').src = `/api/image/${result.cropped_path}`;
-                }
-                if (result.annotated_path) {
-                    document.getElementById('image-annotated-img').src = `/api/image/${result.annotated_path}`;
-                }
-
-                // Fill OCR results table
-                this.fillOCRTable(result, 'image');
-            }
-
-            displayVideoResults(result) {
-                document.getElementById('video-results').style.display = 'block';
-
-                // Video info
-                const videoInfo = document.getElementById('video-info-section');
-                videoInfo.innerHTML = `
-                    <h3>📹 Video Information</h3>
-                    <p><strong>Duration:</strong> ${result.video_info.duration}</p>
-                    <p><strong>Total Frames:</strong> ${result.video_info.total_frames}</p>
-                    <p><strong>FPS:</strong> ${result.video_info.fps.toFixed(1)}</p>
-                    <p><strong>Processed Frames:</strong> ${result.video_info.processed_frames}</p>
-                    <p><strong>Total Detections:</strong> ${result.detections.total_detections}</p>
-                    <p><strong>Unique Plates:</strong> ${result.detections.unique_plates}</p>
-                `;
-
-                // Best detection
-                if (result.best_detection) {
-                    const bestDetection = document.getElementById('video-best-detection');
-                    bestDetection.innerHTML = `
-                        <h3>🏆 Best Detection</h3>
-                        <div class="plate-number">${result.best_detection.plate}</div>
-                        <p>Confidence: ${Math.round(result.best_detection.max_confidence * 100)}% | 
-                        Count: ${result.best_detection.count} | 
-                        First seen: ${result.best_detection.first_seen}</p>
-                    `;
-                }
-
-                // Detection list
-                const detectionList = document.getElementById('video-detection-list');
-                detectionList.innerHTML = '';
-                if (result.detections.unique_plates_summary) {
-                    result.detections.unique_plates_summary.forEach(plate => {
-                        const item = document.createElement('div');
-                        item.className = 'detection-item';
-                        item.innerHTML = `
-                            <div>
-                                <strong>${plate.plate}</strong><br>
-                                <small>First seen: ${plate.first_seen} | Count: ${plate.count}</small>
-                            </div>
-                            <div>
-                                <span style="color: ${plate.valid_format ? '#10b981' : '#ef4444'}">
-                                    ${plate.valid_format ? '✓' : '✗'}
-                                </span>
-                                ${Math.round(plate.max_confidence * 100)}%
-                            </div>
-                        `;
-                        detectionList.appendChild(item);
-                    });
-                }
-            }
-
-            displayValidationInfo(validation, type) {
-                const validationDiv = document.getElementById(`${type}-validation-info`);
-                validationDiv.innerHTML = `
-                    <div class="validation-info">
-                        <div class="validation-title">✅ Smart Validation Applied</div>
-                        <p><strong>Format:</strong> ${validation.format}</p>
-                        <p><strong>Valid Indian Plate:</strong> ${validation.is_valid ? 'Yes' : 'No'}</p>
-                        <p><strong>Original:</strong> ${validation.original_text}</p>
-                        <p><strong>Corrected:</strong> ${validation.corrected_plate}</p>
-                    </div>
-                `;
-            }
-
-            displayConfidenceBar(confidence, type) {
-                // Remove existing confidence bar
-                const existing = document.querySelector(`#${type}-confidence-bar`);
-                if (existing) existing.remove();
-
-                const confidenceHTML = `
-                    <div id="${type}-confidence-bar" class="confidence-bar">
-                        <div class="confidence-fill" style="width: ${confidence * 100}%"></div>
-                    </div>
-                `;
-
-                const detectionInfo = document.getElementById(`${type}-detection-info`);
-                detectionInfo.insertAdjacentHTML('afterend', confidenceHTML);
-            }
-
-            fillOCRTable(result, type) {
-                const tbody = document.querySelector(`#${type}-ocr-table tbody`);
-                tbody.innerHTML = '';
-
-                for (const [method, text] of Object.entries(result.all_ocr_results)) {
-                    const row = tbody.insertRow();
-                    const score = this.calculateScore(text);
-                    row.innerHTML = `
-                        <td style="font-weight: ${method === result.detection_method ? 'bold' : 'normal'}">${method}</td>
-                        <td style="font-family: monospace; font-weight: ${method === result.detection_method ? 'bold' : 'normal'}">${text || 'Empty'}</td>
-                        <td>${score}</td>
-                    `;
-                    if (method === result.detection_method) {
-                        row.style.backgroundColor = '#d4edda';
-                    }
-                }
-            }
-
-            calculateScore(text) {
-                if (!text) return 0;
-                const hasLetters = /[A-Z]/.test(text);
-                const hasNumbers = /[0-9]/.test(text);
-                return text.length + (hasLetters && hasNumbers ? 2 : 0);
-            }
-
-            downloadImage() {
-                if (this.currentResults.image && this.currentResults.image.annotated_path) {
-                    const link = document.createElement('a');
-                    link.href = `/api/image/${this.currentResults.image.annotated_path}`;
-                    link.download = 'annotated_plate_detection.jpg';
-                    link.click();
-                } else {
-                    this.showError('No annotated image available for download', 'image');
-                }
-            }
-
-            showError(message, type) {
-                const errorDiv = document.getElementById(`${type}-error-msg`);
-                errorDiv.textContent = message;
-                errorDiv.style.display = 'block';
-                setTimeout(() => {
-                    errorDiv.style.display = 'none';
-                }, 5000);
-            }
-
-            showSuccess(message, type) {
-                const successDiv = document.getElementById(`${type}-success-msg`);
-                successDiv.textContent = message;
-                successDiv.style.display = 'block';
-                setTimeout(() => {
-                    successDiv.style.display = 'none';
-                }, 3000);
-            }
-        }
-
-        // Tab switching
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-tab').forEach(btn => {
-                btn.classList.remove('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize variables
+            let cameraStream = null;
+            let providerCameraStream = null;
+            
+            // Number Plate Detection - Image Upload
+            const imageUploadArea = document.getElementById('imageUploadArea');
+            const imageInput = document.getElementById('imageInput');
+            const imageProgress = document.getElementById('imageProgress');
+            const imageLoading = document.getElementById('imageLoading');
+            const imageResult = document.getElementById('imageResult');
+            
+            imageUploadArea.addEventListener('click', function() {
+                imageInput.click();
             });
             
-            document.getElementById(`${tabName}-tab`).classList.add('active');
-            event.target.classList.add('active');
-        }
-
-        // Camera functions
-        let app;
-        let cameraActive = false;
-
-        async function startCamera() {
-            try {
-                const response = await fetch('/api/camera-start', { method: 'POST' });
-                const data = await response.json();
+            imageUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#2563eb';
+                this.style.backgroundColor = '#f1f5f9';
+            });
+            
+            imageUploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#cbd5e1';
+                this.style.backgroundColor = 'white';
+            });
+            
+            imageUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#cbd5e1';
+                this.style.backgroundColor = 'white';
                 
-                if (data.success) {
-                    const feed = document.getElementById('camera-feed');
-                    feed.src = `/api/camera-feed?${Date.now()}`;
-                    feed.style.display = 'block';
-                    feed.onload = () => {
-                        cameraActive = true;
-                        document.getElementById('camera-capture-btn').disabled = false;
-                    };
-                    app.showSuccess('Camera started successfully', 'camera');
-                } else {
-                    app.showError(`Failed to start camera: ${data.error}`, 'camera');
+                if (e.dataTransfer.files.length) {
+                    imageInput.files = e.dataTransfer.files;
+                    handleImageUpload(e.dataTransfer.files[0]);
                 }
-            } catch (error) {
-                app.showError(`Camera error: ${error.message}`, 'camera');
-            }
-        }
-
-        async function stopCamera() {
-            try {
-                const response = await fetch('/api/camera-stop', { method: 'POST' });
-                const feed = document.getElementById('camera-feed');
-                feed.style.display = 'none';
-                feed.src = '';
-                cameraActive = false;
-                document.getElementById('camera-capture-btn').disabled = true;
-                document.getElementById('camera-results').style.display = 'none';
-                app.showSuccess('Camera stopped', 'camera');
-            } catch (error) {
-                app.showError(`Camera stop error: ${error.message}`, 'camera');
-            }
-        }
-
-        async function captureFrame() {
-            if (!cameraActive) return;
-
-            document.getElementById('camera-loading').style.display = 'block';
-
-            try {
-                const response = await fetch('/api/camera-capture', { method: 'POST' });
-                const result = await response.json();
-
-                if (response.ok && !result.error) {
-                    displayCameraResults(result);
-                    app.showSuccess('Frame captured and processed', 'camera');
-                } else {
-                    app.showError(result.error || 'Frame capture failed', 'camera');
+            });
+            
+            imageInput.addEventListener('change', function() {
+                if (this.files.length) {
+                    handleImageUpload(this.files[0]);
                 }
-            } catch (error) {
-                app.showError(`Frame capture failed: ${error.message}`, 'camera');
-            } finally {
-                document.getElementById('camera-loading').style.display = 'none';
+            });
+            
+            function handleImageUpload(file) {
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file (JPG, PNG, BMP, etc.)');
+                    return;
+                }
+                
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                // Show progress
+                imageProgress.style.display = 'block';
+                imageLoading.style.display = 'block';
+                imageResult.style.display = 'none';
+                
+                // Simulate progress for better UX
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 5;
+                    if (progress <= 90) {
+                        imageProgress.querySelector('.progress-bar').style.width = progress + '%';
+                    }
+                }, 200);
+                
+                fetch('/api/detect', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    clearInterval(progressInterval);
+                    imageProgress.querySelector('.progress-bar').style.width = '100%';
+                    
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                        imageProgress.style.display = 'none';
+                        imageLoading.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Populate results
+                    document.getElementById('detectedPlate').textContent = data.detected_text || 'No plate detected';
+                    
+                    // Format confidence as percentage
+                    document.getElementById('detectionConfidence').textContent = (data.confidence * 100).toFixed(1) + '%';
+                    document.getElementById('textConfidence').textContent = (data.final_confidence * 100).toFixed(1) + '%';
+                    
+                    // Show validation status
+                    const validationStatus = document.getElementById('validationStatus');
+                    if (data.valid_format) {
+                        validationStatus.className = 'alert alert-success';
+                        validationStatus.innerHTML = '<i class="fas fa-check-circle me-2"></i> Plate format is valid';
+                    } else {
+                        validationStatus.className = 'alert alert-warning';
+                        validationStatus.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i> Plate format may be invalid';
+                    }
+                    
+                    // Display images
+                    if (data.cropped_path) {
+                        document.getElementById('originalImage').src = '/api/image/' + data.cropped_path.replace(/\\/g, '/');
+                    }
+                    if (data.annotated_path) {
+                        document.getElementById('annotatedImage').src = '/api/image/' + data.annotated_path.replace(/\\/g, '/');
+                    }
+                    
+                    // Display component analysis
+                    const componentAnalysis = document.getElementById('componentAnalysis');
+                    componentAnalysis.innerHTML = '';
+                    
+                    if (data.validation_result && data.validation_result.components) {
+                        for (const [key, component] of Object.entries(data.validation_result.components)) {
+                            const componentDiv = document.createElement('div');
+                            componentDiv.className = 'mb-2';
+                            componentDiv.innerHTML = `
+                                <strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> 
+                                <span class="component-badge">${component.original}</span> → 
+                                <span class="component-badge">${component.corrected}</span>
+                                <div class="confidence-bar mt-1">
+                                    <div class="confidence-fill" style="width: ${component.confidence * 100}%; background: linear-gradient(90deg, #f59e0b, #10b981);"></div>
+                                </div>
+                            `;
+                            componentAnalysis.appendChild(componentDiv);
+                        }
+                    }
+                    
+                    // Hide progress and show results
+                    setTimeout(() => {
+                        imageProgress.style.display = 'none';
+                        imageLoading.style.display = 'none';
+                        imageResult.style.display = 'block';
+                    }, 500);
+                })
+                .catch(error => {
+                    clearInterval(progressInterval);
+                    imageProgress.style.display = 'none';
+                    imageLoading.style.display = 'none';
+                    alert('Error: ' + error.message);
+                    console.error('Error:', error);
+                });
             }
-        }
-
-        function displayCameraResults(result) {
-            document.getElementById('camera-results').style.display = 'block';
-            document.getElementById('camera-plate-result').textContent = result.detected_text || 'No plate detected';
-            document.getElementById('camera-detection-info').textContent = 
-                `Capture Time: ${new Date(result.capture_time).toLocaleTimeString()} | Confidence: ${Math.round(result.final_confidence * 100)}%`;
-
-            if (result.validation_applied && result.validation_result) {
-                app.displayValidationInfo(result.validation_result, 'camera');
+            
+            // Video Detection
+            const videoUploadArea = document.getElementById('videoUploadArea');
+            const videoInput = document.getElementById('videoInput');
+            const videoProgress = document.getElementById('videoProgress');
+            const videoLoading = document.getElementById('videoLoading');
+            const videoResult = document.getElementById('videoResult');
+            
+            videoUploadArea.addEventListener('click', function() {
+                videoInput.click();
+            });
+            
+            videoUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#2563eb';
+                this.style.backgroundColor = '#f1f5f9';
+            });
+            
+            videoUploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#cbd5e1';
+                this.style.backgroundColor = 'white';
+            });
+            
+            videoUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#cbd5e1';
+                this.style.backgroundColor = 'white';
+                
+                if (e.dataTransfer.files.length) {
+                    videoInput.files = e.dataTransfer.files;
+                    handleVideoUpload(e.dataTransfer.files[0]);
+                }
+            });
+            
+            videoInput.addEventListener('change', function() {
+                if (this.files.length) {
+                    handleVideoUpload(this.files[0]);
+                }
+            });
+            
+            function handleVideoUpload(file) {
+                if (!file.type.match('video.*')) {
+                    alert('Please select a video file (MP4, AVI, MOV, etc.)');
+                    return;
+                }
+                
+                const formData = new FormData();
+                formData.append('video', file);
+                
+                // Show progress
+                videoProgress.style.display = 'block';
+                videoLoading.style.display = 'block';
+                videoResult.style.display = 'none';
+                
+                // Simulate progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 3;
+                    if (progress <= 85) {
+                        videoProgress.querySelector('.progress-bar').style.width = progress + '%';
+                    }
+                }, 300);
+                
+                fetch('/api/detect-video', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    clearInterval(progressInterval);
+                    videoProgress.querySelector('.progress-bar').style.width = '100%';
+                    
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                        videoProgress.style.display = 'none';
+                        videoLoading.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Populate video results
+                    document.getElementById('totalFrames').textContent = data.video_info.total_frames;
+                    document.getElementById('detectedPlates').textContent = data.detections.total_detections;
+                    document.getElementById('uniquePlates').textContent = data.detections.unique_plates;
+                    
+                    // Display best detection
+                    if (data.best_detection) {
+                        document.getElementById('bestPlate').textContent = data.best_detection.plate;
+                        document.getElementById('bestConfidence').textContent = (data.best_detection.max_confidence * 100).toFixed(1) + '%';
+                        document.getElementById('firstSeen').textContent = data.best_detection.first_seen;
+                    }
+                    
+                    // Display all plates
+                    const allPlatesList = document.getElementById('allPlatesList');
+                    allPlatesList.innerHTML = '';
+                    
+                    if (data.detections.unique_plates_summary && data.detections.unique_plates_summary.length > 0) {
+                        data.detections.unique_plates_summary.forEach(plate => {
+                            const plateDiv = document.createElement('div');
+                            plateDiv.className = 'detection-item';
+                            plateDiv.innerHTML = `
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong class="fs-5">${plate.plate}</strong>
+                                        <div class="text-muted">Detected ${plate.count} times</div>
+                                    </div>
+                                    <div class="text-end">
+                                        <div class="text-success">${(plate.max_confidence * 100).toFixed(1)}% confidence</div>
+                                        <div class="confidence-bar mt-1">
+                                            <div class="confidence-fill" style="width: ${plate.max_confidence * 100}%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            allPlatesList.appendChild(plateDiv);
+                        });
+                    } else {
+                        allPlatesList.innerHTML = '<div class="text-center text-muted py-3">No plates detected in video</div>';
+                    }
+                    
+                    // Hide progress and show results
+                    setTimeout(() => {
+                        videoProgress.style.display = 'none';
+                        videoLoading.style.display = 'none';
+                        videoResult.style.display = 'block';
+                    }, 500);
+                })
+                .catch(error => {
+                    clearInterval(progressInterval);
+                    videoProgress.style.display = 'none';
+                    videoLoading.style.display = 'none';
+                    alert('Error: ' + error.message);
+                    console.error('Error:', error);
+                });
             }
-            app.displayConfidenceBar(result.final_confidence, 'camera');
-        }
-
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', () => {
-            app = new SmartPlateApp();
+            
+            // Live Camera Detection
+            const startCameraBtn = document.getElementById('startCamera');
+            const stopCameraBtn = document.getElementById('stopCamera');
+            const captureFrameBtn = document.getElementById('captureFrame');
+            const liveFeed = document.getElementById('liveFeed');
+            const liveDetectionResults = document.getElementById('liveDetectionResults');
+            
+            startCameraBtn.addEventListener('click', async function() {
+                try {
+                    // Request camera access
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: true,
+                        audio: false 
+                    });
+                    
+                    cameraStream = stream;
+                    liveFeed.srcObject = stream;
+                    
+                    // Start camera on server
+                    fetch('/api/camera-start', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert('Error: ' + data.error);
+                            stopCameraStream();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        stopCameraStream();
+                    });
+                    
+                    // Disable start button, enable stop and capture
+                    startCameraBtn.disabled = true;
+                    stopCameraBtn.disabled = false;
+                    captureFrameBtn.disabled = false;
+                    
+                } catch (error) {
+                    alert('Error accessing camera: ' + error.message);
+                    console.error('Error accessing camera:', error);
+                }
+            });
+            
+            stopCameraBtn.addEventListener('click', function() {
+                stopCameraStream();
+            });
+            
+            captureFrameBtn.addEventListener('click', function() {
+                if (!cameraStream) {
+                    alert('Please start the camera first');
+                    return;
+                }
+                
+                // Show loading spinner
+                liveDetectionResults.innerHTML = '<div class="text-center py-5"><div class="loading-spinner" style="display: block; margin: 0 auto;"></div></div>';
+                
+                // Capture frame from server
+                fetch('/api/camera-capture', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        liveDetectionResults.innerHTML = `
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                ${data.error}
+                            </div>
+                        `;
+                        return;
+                    }
+                    
+                    // Display results
+                    let resultHTML = `
+                        <div class="detection-item">
+                            <div class="plate-display mb-0">${data.detected_text || 'No plate detected'}</div>
+                            <div class="mt-3">
+                                <div class="d-flex justify-content-between">
+                                    <span>Detection Confidence:</span>
+                                    <span class="fw-bold">${(data.confidence * 100).toFixed(1)}%</span>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <span>Text Confidence:</span>
+                                    <span class="fw-bold">${(data.final_confidence * 100).toFixed(1)}%</span>
+                                </div>
+                            </div>
+                    `;
+                    
+                    if (data.annotated_path) {
+                        resultHTML += `
+                            <div class="mt-3">
+                                <img src="/api/image/${data.annotated_path.replace(/\\/g, '/')}" class="img-fluid rounded" style="max-height: 200px; object-fit: contain;">
+                            </div>
+                        `;
+                    }
+                    
+                    resultHTML += '</div>';
+                    liveDetectionResults.innerHTML = resultHTML;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    liveDetectionResults.innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Error capturing frame: ${error.message}
+                        </div>
+                    `;
+                });
+            });
+            
+            function stopCameraStream() {
+                if (cameraStream) {
+                    cameraStream.getTracks().forEach(track => track.stop());
+                    cameraStream = null;
+                }
+                
+                liveFeed.srcObject = null;
+                
+                // Stop camera on server
+                fetch('/api/camera-stop', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .catch(error => {
+                    console.error('Error stopping camera on server:', error);
+                });
+                
+                // Reset buttons
+                startCameraBtn.disabled = false;
+                stopCameraBtn.disabled = true;
+                captureFrameBtn.disabled = true;
+                
+                // Reset results
+                liveDetectionResults.innerHTML = `
+                    <div class="text-center text-muted py-5">
+                        <i class="fas fa-info-circle fa-2x mb-3"></i>
+                        <p>Start camera to begin detection</p>
+                    </div>
+                `;
+            }
+            
+            // Initialize stop button as disabled
+            stopCameraBtn.disabled = true;
+            captureFrameBtn.disabled = true;
+            
+            // Vehicle Provider Detection
+            const providerUploadArea = document.getElementById('providerUploadArea');
+            const providerInput = document.getElementById('providerInput');
+            const providerProgress = document.getElementById('providerProgress');
+            const providerLoading = document.getElementById('providerLoading');
+            const providerResult = document.getElementById('providerResult');
+            
+            providerUploadArea.addEventListener('click', function() {
+                providerInput.click();
+            });
+            
+            providerUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#2563eb';
+                this.style.backgroundColor = '#f1f5f9';
+            });
+            
+            providerUploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#cbd5e1';
+                this.style.backgroundColor = 'white';
+            });
+            
+            providerUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#cbd5e1';
+                this.style.backgroundColor = 'white';
+                
+                if (e.dataTransfer.files.length) {
+                    providerInput.files = e.dataTransfer.files;
+                    handleProviderUpload(e.dataTransfer.files[0]);
+                }
+            });
+            
+            providerInput.addEventListener('change', function() {
+                if (this.files.length) {
+                    handleProviderUpload(this.files[0]);
+                }
+            });
+            
+            function handleProviderUpload(file) {
+                if (!file.type.match('image.*')) {
+                    alert('Please select an image file');
+                    return;
+                }
+                
+                const formData = new FormData();
+                formData.append('file', file);
+                
+                // Show progress
+                providerProgress.style.display = 'block';
+                providerLoading.style.display = 'block';
+                providerResult.style.display = 'none';
+                
+                // Simulate progress
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 5;
+                    if (progress <= 90) {
+                        providerProgress.querySelector('.progress-bar').style.width = progress + '%';
+                    }
+                }, 200);
+                
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    clearInterval(progressInterval);
+                    providerProgress.querySelector('.progress-bar').style.width = '100%';
+                    
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                        providerProgress.style.display = 'none';
+                        providerLoading.style.display = 'none';
+                        return;
+                    }
+                    
+                    // Populate results
+                    document.getElementById('combinedProviders').textContent = data.detections.length > 0 ? 
+                        data.detections.map(d => d.class).join(' | ') : 'No providers detected';
+                    
+                    if (data.detections.length > 0) {
+                        const avgConf = data.detections.reduce((sum, d) => sum + d.confidence, 0) / data.detections.length;
+                        document.getElementById('avgConfidence').textContent = (avgConf * 100).toFixed(1) + '%';
+                    } else {
+                        document.getElementById('avgConfidence').textContent = '0%';
+                    }
+                    
+                    // Display individual detections
+                    const individualDetections = document.getElementById('individualDetections');
+                    individualDetections.innerHTML = '';
+                    
+                    if (data.detections && data.detections.length > 0) {
+                        data.detections.forEach((detection, index) => {
+                            const detectionDiv = document.createElement('div');
+                            detectionDiv.className = 'vehicle-provider-item';
+                            detectionDiv.innerHTML = `
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>Provider ${index + 1}:</strong> ${detection.class}
+                                    </div>
+                                    <div>
+                                        ${(detection.confidence * 100).toFixed(1)}%
+                                    </div>
+                                </div>
+                                <div class="provider-confidence">
+                                    <div class="provider-confidence-fill" style="width: ${detection.confidence * 100}%;"></div>
+                                </div>
+                                <div class="mt-2 text-muted small">
+                                    Position: (${Math.round(detection.x)}, ${Math.round(detection.y)})
+                                </div>
+                            `;
+                            individualDetections.appendChild(detectionDiv);
+                        });
+                    } else {
+                        individualDetections.innerHTML = '<div class="text-center text-muted py-3">No individual providers detected</div>';
+                    }
+                    
+                    // Display annotated image
+                    if (data.annotated_image) {
+                        document.getElementById('providerAnnotatedImage').src = '/' + data.annotated_image;
+                    }
+                    
+                    // Hide progress and show results
+                    setTimeout(() => {
+                        providerProgress.style.display = 'none';
+                        providerLoading.style.display = 'none';
+                        providerResult.style.display = 'block';
+                    }, 500);
+                })
+                .catch(error => {
+                    clearInterval(progressInterval);
+                    providerProgress.style.display = 'none';
+                    providerLoading.style.display = 'none';
+                    alert('Error: ' + error.message);
+                    console.error('Error:', error);
+                });
+            }
+            
+            // Live Vehicle Provider Detection
+            const startProviderCameraBtn = document.getElementById('startProviderCamera');
+            const stopProviderCameraBtn = document.getElementById('stopProviderCamera');
+            const providerLiveFeed = document.getElementById('providerLiveFeed');
+            const providerLiveResults = document.getElementById('providerLiveResults');
+            
+            startProviderCameraBtn.addEventListener('click', function() {
+                fetch('/start_live_feed', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                        return;
+                    }
+                    
+                    // Update UI
+                    startProviderCameraBtn.disabled = true;
+                    stopProviderCameraBtn.disabled = false;
+                    
+                    // Set up live feed
+                    providerLiveFeed.src = '/video_feed';
+                    
+                    // Start polling for detection results
+                    startProviderDetectionPolling();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error: ' + error.message);
+                });
+            });
+            
+            stopProviderCameraBtn.addEventListener('click', function() {
+                fetch('/stop_live_feed', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error stopping live feed:', data.error);
+                    }
+                    
+                    // Update UI
+                    startProviderCameraBtn.disabled = false;
+                    stopProviderCameraBtn.disabled = true;
+                    providerLiveFeed.src = '';
+                    
+                    // Reset results
+                    providerLiveResults.innerHTML = `
+                        <div class="text-center text-muted py-5">
+                            <i class="fas fa-info-circle fa-2x mb-3"></i>
+                            <p>Start camera to begin vehicle provider detection</p>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+            
+            // Initialize stop button as disabled
+            stopProviderCameraBtn.disabled = true;
+            
+            function startProviderDetectionPolling() {
+                // This is a simplified implementation
+                // In a real application, you might want to use WebSockets for real-time updates
+                const pollInterval = setInterval(() => {
+                    // You could make an API call here to get the latest detection results
+                    // For now, we'll just update the UI to show that detection is active
+                    providerLiveResults.innerHTML = `
+                        <div class="alert alert-info">
+                            <i class="fas fa-video me-2"></i>
+                            Live vehicle provider detection is active
+                        </div>
+                        <div class="text-center mt-3">
+                            <div class="loading-spinner" style="display: block; margin: 0 auto;"></div>
+                            <p class="mt-2 text-muted">Analyzing video feed...</p>
+                        </div>
+                    `;
+                }, 2000);
+                
+                // Store the interval ID so we can clear it later if needed
+                providerLiveResults.dataset.pollInterval = pollInterval;
+            }
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Add active class to nav links on scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+                
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 </body>
